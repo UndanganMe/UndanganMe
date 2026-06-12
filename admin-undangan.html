@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Undangan</title>
+    <style>
+        /* Mengatur agar halaman berada di tengah dengan lebar maksimal 450px (seperti ukuran HP) */
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            background-color: #eef2f3; 
+            margin: 0; 
+            padding: 20px; 
+            display: flex; 
+            justify-content: center; /* Memusatkan di tengah layar komputer */
+        }
+        
+        .container { 
+            width: 100%; 
+            max-width: 450px; /* Lebar maksimal agar tetap proporsional seperti HP */
+            background: #f0f2f5;
+        }
+
+        h2 { color: #1c1e21; font-size: 1.2rem; margin-bottom: 15px; text-align: center; }
+        
+        .card { background: white; padding: 15px; border-radius: 12px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .nama { font-weight: bold; font-size: 1.1rem; }
+        .status { font-size: 0.85rem; padding: 4px 8px; border-radius: 20px; }
+        .status-aktif { background: #d4edda; color: #155724; }
+        .status-pending { background: #fff3cd; color: #856404; }
+        
+        button { width: 100%; padding: 12px; background: #007bff; color: white; border: none; border-radius: 8px; font-weight: bold; font-size: 1rem; cursor: pointer; transition: 0.3s; }
+        button:hover { background: #0056b3; }
+        button:disabled { background: #ccc; }
+    </style>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Panel Admin</h2>
+        <div id="list-undangan"></div>
+    </div>
+
+    <script>
+        const firebaseConfig = {
+  apiKey: "AIzaSyCJE7hxrEd028dNOP0IlkKRnGzuzYMOGmo",
+  authDomain: "undangan-digital-d05f6.firebaseapp.com",
+  projectId: "undangan-digital-d05f6",
+  storageBucket: "undangan-digital-d05f6.firebasestorage.app",
+  messagingSenderId: "67545163455",
+  appId: "1:67545163455:web:5e92717868a714b473c80a",
+  measurementId: "G-XFXBTPVYEQ"
+};
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+   db.collection("undangan").onSnapshot((snapshot) => {
+    const list = document.getElementById("list-undangan");
+    list.innerHTML = ""; 
+    snapshot.forEach((doc) => {
+        const data = doc.data();
+        
+        // --- TAMBAHKAN BARIS INI ---
+        console.log("Isi data dari Firestore:", data); 
+        // ---------------------------
+
+        const isAktif = data.statusBayar;
+        
+        // Ganti bagian list.innerHTML Anda dengan ini:
+list.innerHTML += `
+    <div class="card">
+        <div class="card-header">
+            <span class="nama">${data.priaNama || 'Pria'} & ${data.wanitaNama || 'Wanita'}</span>
+            <span class="status ${isAktif ? 'status-aktif' : 'status-pending'}">
+                ${isAktif ? '✅ Aktif' : '⏳ Menunggu'}
+            </span>
+        </div>
+        <p style="margin: 5px 0; font-size: 0.9rem;">
+            <strong>Email:</strong> ${data.email || 'Tidak diisi'}
+        </p>
+        <p style="margin: 5px 0; font-size: 0.8rem; color: #666;">ID: ${doc.id}</p>
+        
+        ${!isAktif ? `<button onclick="aktifkan('${doc.id}')">Aktifkan Sekarang</button>` : '<button style="background:#6c757d" disabled>Sudah Aktif</button>'}
+    </div>
+`;
+    });
+});
+
+        function aktifkan(id) {
+            if(confirm("Yakin ingin mengaktifkan undangan ini?")) {
+                db.collection("undangan").doc(id).update({ statusBayar: true })
+                .then(() => alert("Berhasil diaktifkan!"))
+                .catch((err) => alert("Gagal: " + err));
+            }
+        }
+    </script>
+</body>
+</html>

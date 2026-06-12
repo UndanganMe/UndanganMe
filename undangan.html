@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <link rel="icon" href="data:,">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan Pernikahan Kita</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* RESET & LAYOUT DASAR PC (RATA TENGAH) */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #2c3e50; 
+            display: flex;
+            justify-content: center; 
+            align-items: center;     
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* BINGKAI HP */
+        .phone-wrapper {
+            width: 390px;
+            height: 844px;
+            background-color: #f7f5f0;
+            border: 12px solid #1a1a1a;
+            border-radius: 40px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            overflow-y: auto;
+            position: relative;
+            scrollbar-width: none;
+            text-align: center;
+            scroll-behavior: smooth; 
+        }
+
+        .phone-wrapper::-webkit-scrollbar {
+            display: none; 
+        }
+
+        /* GAYA COVER */
+        .cover-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4));
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center; 
+            align-items: center;     
+            color: white;
+            padding: 20px;
+            transition: background 0.5s ease-in-out;
+        }
+
+        /* GAYA KONTEN UTAMA */
+        #main-content {
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;               
+            width: 100%;                     
+        }
+
+        .cover-content {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+        }
+
+        .cover-content h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3.5rem;
+            margin: 15px 0;
+        }
+
+        .nama-tamu {
+            width: 90%;
+            margin: 15px 0 25px;
+            font-style: italic;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 1.4rem;
+        }
+
+        button {
+            padding: 12px 35px;
+            font-size: 1rem;
+            background-color: #d4af37;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: 600;
+        }
+
+        button:hover {
+            background-color: #aa8c2c;
+            transform: scale(1.05);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        section {
+            padding: 50px 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+            color: #4a3728;
+        }
+        
+        .overlay-konten {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(2px);
+            width: 100%;
+        }
+
+        .teks-ucapan {
+            text-align: center;
+            color: #4a3728; 
+            width: 100%;
+            max-width: 320px; 
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* GAYA MEMPELAI */
+        .mempelai h3 {
+            font-size: 1.1rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .mempelai h2 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.8rem;
+            color: #b58d3d;
+            margin: 5px 0 10px;
+        }
+
+        .dan {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.5rem;
+            margin: 25px 0;
+            color: #b58d3d;
+        }
+
+        .pembatas {
+            width: 50%;
+            border: 0;
+            height: 1px;
+            background: #d4af37;
+            margin: 0 auto;
+            opacity: 0.5;
+        }
+
+        /* GAYA ACARA */
+        .acara h2 {
+            font-size: 1.6rem;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .kotak-acara {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 25px 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            width: 100%; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+        }
+
+        .kotak-acara h3 {
+            color: #b58d3d;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            border-bottom: 2px solid #f7f5f0;
+            padding-bottom: 5px;
+            width: 60%;
+        }
+
+        .kotak-acara p {
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        /* TOMBOL MAPS */
+        .wrapper-tombol {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .btn-maps {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: #b58d3d;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: 0.3s;
+            box-shadow: 0 4px 10px rgba(181, 141, 61, 0.3);
+        }
+
+        .btn-maps:hover {
+            background-color: #2c3e50;
+            box-shadow: 0 4px 10px rgba(44, 62, 80, 0.3);
+        }
+
+        /* KODE ANIMASI TEXT */
+        .animasi-teks {
+            opacity: 0;                  
+            transform: translateY(30px); 
+            animation: munculKeAtas 1.2s forwards ease-out; 
+        }
+
+        @keyframes munculKeAtas {
+            to {
+                opacity: 1;             
+                transform: translateY(0);
+            }
+        }
+
+        /* GAYA TOMBOL KONFIRMASI KEHADIRAN */
+        .konfirmasi-kehadiran {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px auto;
+            width: 90%;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+        }
+        .konfirmasi-kehadiran h3 {
+            font-size: 1.1rem;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        .btn-group-konfirmasi {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+        }
+        .btn-konf {
+            flex: 1;
+            padding: 10px 5px;
+            font-size: 0.85rem;
+            border-radius: 8px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            color: white;
+            transition: 0.2s;
+        }
+        .btn-hadir { background-color: #b58d3d; }
+        .btn-hadir:hover { background-color: #2c3e50; }
+        .btn-ragu { background-color: #b58d3d; }
+        .btn-ragu:hover { background-color: #2c3e50; }
+        .btn-absen { background-color: #b58d3d; }
+        .btn-absen:hover { background-color: #2c3e50; }
+
+        /* BACKGROUND COVER UNDANGAN */
+        .hero-cover{
+            position:relative;
+            width:100%;
+            height:100vh;
+            overflow:hidden;
+            background:#000;
+        }
+
+        .hero-cover img{
+            position:absolute;
+            inset:0;
+            width:100%;
+            height:100%;
+            object-fit:cover;
+        }
+
+        .hero-cover::before{
+            content:'';
+            position:absolute;
+            inset:0;
+            background:linear-gradient(
+                to bottom,
+                rgba(0,0,0,.35),
+                rgba(0,0,0,.55)
+            );
+        }
+
+        .hero-content{
+            position:relative;
+            z-index:2;
+            height:100%;
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            align-items:center;
+            text-align:center;
+            color:#fff;
+            padding:20px;
+        }
+
+        .hero-content h1{
+            font-size:3rem;
+            margin-bottom:10px;
+        }
+
+        .hero-content p{
+            font-size:1rem;
+            opacity:.9;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="phone-wrapper" id="phoneContainer">
+
+        <audio id="backsound" loop>
+            <source id="sumber-musik" src="" type="audio/mp3">
+            Browser kamu tidak mendukung pemutar musik.
+        </audio>
+
+        <div id="cover" class="cover-section">
+            <div class="cover-content">
+                <h3 class="animasi-teks">The Wedding of</h3>
+                <h1 id="txt-title" class="animasi-teks" style="animation-delay: 0.3s;">Loading...</h1> 
+                <p class="animasi-teks" style="animation-delay: 0.6s;">Kepada Bapak/Ibu/Saudara/i:</p>
+                <h2 id="txt-tamu" class="nama-tamu animasi-teks" style="animation-delay: 0.8s;">Tamu Undangan</h2>
+                <button onclick="bukaUndangan()" class="animasi-teks" style="animation-delay: 1s;">Buka Undangan</button>
+            </div>
+        </div>
+
+        <div id="main-content" class="hidden">
+            <div class="overlay-konten">
+                <section class="mempelai">
+                    <p class="teks-ucapan animasi-teks" style="margin-bottom: 30px; font-size: 0.95rem; font-style: italic;">
+                        Ya Allah, kami mengucapkan syukur atas kehendak-Mu yang telah mengukuhkan kasih dalam kehidupan berkeluarga bagi putra-putri kami:
+                    </p>
+
+                    <div class="mempelai-pria animasi-teks">
+                        <h3>Mempelai Pria</h3>
+                        <h2 id="txt-pria-nama">Nama Pria</h2>
+                        <p id="txt-pria-ortu">Orang Tua Pria</p>
+                    </div>
+                    
+                    <div class="dan animasi-teks" style="animation-delay: 0.3s;">&</div>
+
+                    <div class="mempelai-wanita animasi-teks" style="animation-delay: 0.5s;">
+                        <h3>Mempelai Wanita</h3>
+                        <h2 id="txt-wanita-nama">Nama Wanita</h2>
+                        <p id="txt-wanita-ortu">Orang Tua Wanita</p>
+                    </div>
+                </section>
+
+                <hr class="pembatas">
+
+                <section class="acara">
+                    <p class="teks-ucapan" style="margin-bottom: 25px; font-weight: 600;">
+                        Assalamualaikum Wr. Wb
+                    </p>
+                    <p class="teks-ucapan" style="margin-bottom: 30px; font-size: 0.95rem; line-height: 1.6;">
+                        Dengan memohon rahmat dan ridho Allah SWT, kami bermaksud menyelenggarakan Resepsi Pernikahan putra-putri kami, yang insyaAllah akan dilaksanakan pada:
+                    </p>
+
+                    <h2>Waktu & Tempat Acara</h2>
+                    
+                    <div class="kotak-acara">
+                        <h3>Akad & Resepsi</h3>
+                        <p><strong id="txt-tanggal">Tanggal Acara</strong></p>
+                        <p><strong>Tempat:</strong> <span id="txt-tempat">Nama Gedung</span></p> 
+                    </div>
+
+                    <div class="wrapper-tombol">
+                        <a id="link-maps" href="#" target="_blank" class="btn-maps">Lihat Lokasi di Google Maps</a>
+                    </div>
+                </section>
+
+                <hr class="pembatas">
+
+                <div class="konfirmasi-kehadiran">
+                    <h3>Konfirmasi Kehadiran Anda</h3>
+                    <div class="btn-group-konfirmasi">
+                        <button class="btn-konf btn-hadir" onclick="kirimKonfirmasi('hadir')">Hadir</button>
+                        <button class="btn-konf btn-ragu" onclick="kirimKonfirmasi('ragu')">Ragu</button>
+                        <button class="btn-konf btn-absen" onclick="kirimKonfirmasi('absen')">Tidak</button>
+                    </div>
+                </div>
+
+                <section class="penutup" style="padding-top: 30px; padding-bottom: 60px;">
+                    <p class="teks-ucapan" style="font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px;">
+                        Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu kepada kedua mempelai.
+                    </p>
+                    <p class="teks-ucapan" style="font-size: 0.95rem; line-height: 1.6; margin-bottom: 30px;">
+                        Atas kehadiran dan doa restu Bapak/Ibu/Saudara/i, kami ucapkan terimakasih.
+                    </p>
+                    <p class="teks-ucapan" style="font-weight: 600;">
+                        Wassalamualaikum Wr. Wb
+                    </p>
+                </section>
+            </div>
+        </div>
+
+    </div> 
+
+ <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+    import { getFirestore, doc, onSnapshot, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyCJE7hxrEd028dNOP0IlkKRnGzuzYMOGmo",
+        authDomain: "undangan-digital-d05f6.firebaseapp.com",
+        projectId: "undangan-digital-d05f6",
+        storageBucket: "undangan-digital-d05f6.firebasestorage.app",
+        messagingSenderId: "67545163455",
+        appId: "1:67545163455:web:5e92717868a714b473c80a",
+        measurementId: "G-XFXBTPVYEQ"
+    };
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const idUndangan = urlParams.get('id');
+    const namaTamu = urlParams.get('to') || "Tamu Undangan";   
+
+    if(document.getElementById('txt-tamu')) {
+        document.getElementById('txt-tamu').innerText = namaTamu;
+    }
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    window.bukaModalPembayaran = function(id, namaPengantin) {
+        const noWa = "6285773300051"; 
+        const pesanWa = `Halo Admin, saya sudah melakukan pembayaran untuk undangan: ${namaPengantin} (ID: ${id}). Mohon segera dicek dan diaktifkan ya, terima kasih.`;
+        const linkWa = `https://wa.me/${noWa}?text=${encodeURIComponent(pesanWa)}`;
+
+        let modalBayar = document.createElement('div');
+        modalBayar.id = "kotak-pembayaran-qris";
+        modalBayar.style = "position:fixed; inset:0; background:rgba(0,0,0,0.8); z-index:9999999; display:flex; justify-content:center; align-items:center; padding:20px; font-family:sans-serif;";
+        modalBayar.innerHTML = `
+            <div style="background:white; padding:25px; border-radius:20px; max-width:360px; width:100%; text-align:center; box-shadow:0 10px 30px rgba(0,0,0,0.5);">
+                <h3 style="margin-bottom:10px; color:#1e293b; font-size:18px;">Pembayaran Undangan</h3>
+                <p style="font-size:12px; color:#64748b; margin-bottom:15px;">${namaPengantin}</p>
+                <img src="image_cbb3bb.jpg" alt="QRIS" style="width:100%; max-width:240px; border:2px solid #cbd5e1; border-radius:10px; padding:5px; margin:0 auto 15px;">
+                <p style="font-size:12px; color:#475569; margin-bottom:20px; line-height:1.5; text-align:left;">
+                    <b>Instruksi:</b><br>
+                    1. Scan QRIS untuk transfer.<br>
+                    2. Klik tombol di bawah untuk konfirmasi via WhatsApp Admin.
+                </p>
+                <a href="${linkWa}" target="_blank" style="display:block; width:100%; padding:14px; background:#25D366; color:white; border-radius:12px; font-weight:bold; text-decoration:none; font-size:14px; margin-bottom:10px;">
+                    Konfirmasi via WhatsApp
+                </a>
+                <button onclick="window.location.href='dashboard-undangan-user.html'" style="width:100%; padding:12px; background:#f1f5f9; color:#64748b; border:none; border-radius:12px; cursor:pointer; font-size:13px;">
+                    Tutup & Kembali ke Dasbor
+                </button>
+            </div>
+        `;
+        document.body.appendChild(modalBayar);
+    }
+    if (idUndangan) {
+        onSnapshot(doc(db, "undangan", idUndangan), (docSnap) => {
+            if (docSnap.exists()) {
+                const data = docSnap.data();
+                const belumBayar = data.statusBayar === false || data.statusBayar === undefined;
+                const namaLengkap = (data.priaNama || '') + " & " + (data.wanitaNama || '');
+
+                if (belumBayar) {
+                    const bannerLama = document.getElementById("me-watermark-banner");
+                    if(bannerLama) bannerLama.remove();
+
+                    let watermark = document.createElement('div');
+                    watermark.id = "me-watermark-banner";
+                    watermark.innerHTML = `
+                        <div style="margin-bottom:12px;">⚠️ UNDANGAN BELUM AKTIF<br>MOHON SELESAIKAN PEMBAYARAN<br>Sejumlah Rp.15.000</div>
+                        <button onclick="bukaModalPembayaran('${idUndangan}', '${namaLengkap}')" style="background:white; color:#ef4444; border:none; padding:10px 20px; border-radius:8px; font-weight:bold; cursor:pointer; font-size:13px; box-shadow:0 4px 6px rgba(0,0,0,0.2);">
+                            Bayar Sekarang
+                        </button>
+                    `;
+                    watermark.style = "position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); width:90%; max-width:320px; background:rgba(239, 68, 68, 0.98); color:white; text-align:center; padding:25px; font-size:15px; font-weight:bold; z-index:999999; font-family:sans-serif; border-radius:20px; box-shadow: 0 15px 30px rgba(0,0,0,0.4);";
+                    document.body.appendChild(watermark);
+                    
+                    window.kirimKonfirmasi = function() {
+                        alert("Silakan klik 'Bayar Sekarang' di layar untuk aktivasi.");
+                    }
+                } else {
+                    aktifkanFungsiRSVP();
+                }
+
+                const bgTerpilih = data.templateTerpilih || "tema1.jpg";
+                const coverEl = document.getElementById('cover');
+                const mainEl = document.getElementById('main-content');
+                let lokasiTemplate = bgTerpilih.startsWith('http') ? bgTerpilih : './' + bgTerpilih;
+
+                if(coverEl) coverEl.style.backgroundImage = `linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.45)),url('${lokasiTemplate}')`;
+                if(mainEl) {
+                    mainEl.style.backgroundImage = `url('${lokasiTemplate}')`;
+                    mainEl.style.backgroundSize = 'cover';
+                    mainEl.style.backgroundPosition = 'center';
+                    mainEl.style.backgroundRepeat = 'no-repeat';
+                }
+                
+                const wanitaMurni = data.wanitaNama ? (data.wanitaNama.includes(',') ? data.wanitaNama.split(',')[0] : data.wanitaNama) : 'Wanita';
+                const priaMurni = data.priaNama ? (data.priaNama.includes(',') ? data.priaNama.split(',')[0] : data.priaNama) : 'Pria';
+                
+                if(document.getElementById('txt-title')) document.getElementById('txt-title').innerText = wanitaMurni + ' & ' + priaMurni;
+                if(document.getElementById('txt-pria-nama')) document.getElementById('txt-pria-nama').innerText = data.priaNama || '';
+                if(document.getElementById('txt-pria-ortu')) document.getElementById('txt-pria-ortu').innerText = data.priaOrtu || '';
+                if(document.getElementById('txt-wanita-nama')) document.getElementById('txt-wanita-nama').innerText = data.wanitaNama || '';
+                if(document.getElementById('txt-wanita-ortu')) document.getElementById('txt-wanita-ortu').innerText = data.wanitaOrtu || '';
+                if(document.getElementById('txt-tanggal')) document.getElementById('txt-tanggal').innerText = data.tanggal || '';
+                if(document.getElementById('txt-tempat')) document.getElementById('txt-tempat').innerText = data.tempat || '';
+                if(document.getElementById('link-maps')) document.getElementById('link-maps').href = data.maps || '#';
+                
+                if(data.musikUrl) {
+                    const audio = document.getElementById('backsound');
+                    const sumber = document.getElementById('sumber-musik');
+                    if(sumber && audio) {
+                        sumber.src = data.musikUrl;
+                        audio.load(); 
+                    }
+                }
+            } else {
+                if(document.getElementById('txt-title')) document.getElementById('txt-title').innerText = "Undangan Tidak Ditemukan";
+            }
+        });
+    } else {
+        if(document.getElementById('txt-title')) document.getElementById('txt-title').innerText = "ID Undangan Belum Dipilih";
+    }
+
+    window.bukaUndangan = function() {
+        const coverEl = document.getElementById('cover');
+        const mainEl = document.getElementById('main-content');
+        if(coverEl) coverEl.style.display = 'none';
+        if(mainEl) mainEl.classList.remove('hidden');
+        var audio = document.getElementById('backsound');
+        if(audio) audio.play().catch(function(e) { console.log(e); });
+        mulaiAutoScroll();
+    }
+
+    function mulaiAutoScroll() {
+        var wadahHP = document.getElementById('phoneContainer');
+        if(!wadahHP) return;
+        var kecepatan = 1; 
+        var intervalScroll = setInterval(function() {
+            wadahHP.scrollTop += kecepatan;
+            if (wadahHP.scrollTop + wadahHP.clientHeight >= wadahHP.scrollHeight) clearInterval(intervalScroll);
+        }, 30); 
+        wadahHP.addEventListener("mousedown", function() { clearInterval(intervalScroll); });
+        wadahHP.addEventListener("touchstart", function() { clearInterval(intervalScroll); });
+    }
+
+    function aktifkanFungsiRSVP() {
+        window.kirimKonfirmasi = async function(status) {
+            if (!idUndangan) return;
+            const namaPengunjung = namaTamu !== "Tamu Undangan" ? namaTamu : "Tamu Tanpa Nama";
+            try {
+                await addDoc(collection(db, "undangan", idUndangan, "konfirmasi"), {
+                    nama: namaPengunjung,
+                    status: status, 
+                    waktu: new Date().toISOString()
+                });
+                alert(`Terima kasih! Konfirmasi "${status.toUpperCase()}" atas nama ${namaPengunjung} berhasil dikirim.`);
+            } catch (error) {
+                alert("Gagal mengirim konfirmasi.");
+            }
+        };
+    }
+    aktifkanFungsiRSVP();
+</script>
+</body>
+</html>

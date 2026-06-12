@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masuk / Daftar - Undangan'Me</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #d4af37;
+            --primary-dark: #b8952e;
+            --dark: #1a252f;
+            --bg-light: #f8fafc;
+            --text-muted: #64748b;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background-color: #0f172a; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 10px; }
+        
+        .app-container {
+            width: 100%; max-width: 412px; height: 800px;
+            background-color: white; border-radius: 36px;
+            border: 10px solid #334155; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            display: flex; flex-direction: column; justify-content: center; padding: 30px; position: relative;
+        }
+
+        .logo { font-size: 2rem; font-weight: 800; color: var(--dark); text-align: center; margin-bottom: 5px; }
+        .logo span { color: var(--primary); }
+        .subtitle { font-size: 0.85rem; color: var(--text-muted); text-align: center; margin-bottom: 40px; }
+
+        .form-section { display: none; }
+        .form-section.active { display: block; }
+
+        h2 { font-size: 1.4rem; color: var(--dark); margin-bottom: 20px; font-weight: 700; }
+        .form-group { margin-bottom: 18px; }
+        label { display: block; font-size: 0.75rem; font-weight: 700; color: var(--dark); margin-bottom: 6px; }
+        .input-wrapper { position: relative; }
+        .input-wrapper i { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 0.9rem; }
+        input { width: 100%; padding: 12px 12px 12px 38px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 0.85rem; outline: none; transition: 0.2s; }
+        input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15); }
+
+        button.btn-main { width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 10px; font-weight: 700; font-size: 0.95rem; cursor: pointer; margin-top: 10px; transition: 0.2s; }
+        button.btn-main:hover { background: var(--primary-dark); }
+        
+        .switch-text { font-size: 0.8rem; color: var(--text-muted); text-align: center; margin-top: 25px; }
+        .switch-text span { color: var(--primary); font-weight: 700; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <div class="logo">Undangan<span>'Me</span></div>
+        <div class="subtitle">Platform Pembuatan Undangan Digital Praktis</div>
+
+        <div id="section-login" class="form-section active">
+            <h2>Masuk Akun</h2>
+            <div class="form-group">
+                <label>Alamat Email</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-envelope"></i>
+                    <input type="email" id="login-email" placeholder="nama@email.com">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Kata Sandi</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" id="login-password" placeholder="••••••••">
+                </div>
+            </div>
+            <button class="btn-main" onclick="prosesLogin()">Masuk Sekarang</button>
+            <div class="switch-text">Belum punya akun? <span onclick="gantiForm('register')">Daftar Gratis</span></div>
+        </div>
+
+        <div id="section-register" class="form-section">
+            <h2>Daftar Akun Baru</h2>
+            <div class="form-group">
+                <label>Nama Lengkap</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text" id="reg-nama" placeholder="Masukkan nama Anda">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Alamat Email</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-envelope"></i>
+                    <input type="email" id="reg-email" placeholder="nama@email.com">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Kata Sandi</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" id="reg-password" placeholder="Minimal 6 karakter">
+                </div>
+            </div>
+            <button class="btn-main" onclick="prosesRegister()">Daftar Akun</button>
+            <div class="switch-text">Sudah memiliki akun? <span onclick="gantiForm('login')">Masuk Disini</span></div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+const firebaseConfig = {
+  apiKey: "AIzaSyCJE7hxrEd028dNOP0IlkKRnGzuzYMOGmo",
+  authDomain: "undangan-digital-d05f6.firebaseapp.com",
+  projectId: "undangan-digital-d05f6",
+  storageBucket: "undangan-digital-d05f6.firebasestorage.app",
+  messagingSenderId: "67545163455",
+  appId: "1:67545163455:web:5e92717868a714b473c80a",
+  measurementId: "G-XFXBTPVYEQ"
+};
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Fungsi navigasi tukar form login <-> register
+        window.gantiForm = function(tipe) {
+            document.getElementById('section-login').classList.remove('active');
+            document.getElementById('section-register').classList.remove('active');
+            if(tipe === 'login') document.getElementById('section-login').classList.add('active');
+            if(tipe === 'register') document.getElementById('section-register').classList.add('active');
+        }
+
+        // Proses Pendaftaran Akun Baru
+        window.prosesRegister = async function() {
+            const nama = document.getElementById('reg-nama').value;
+            const email = document.getElementById('reg-email').value;
+            const password = document.getElementById('reg-password').value;
+
+            if(!nama || !email || !password) { alert("Harap isi semua kolom pendaftaran!"); return; }
+
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                // Simpan nama pengguna ke profil Firebase Auth
+                await updateProfile(userCredential.user, { displayName: nama });
+                alert("Pendaftaran berhasil! Akun Anda siap digunakan.");
+                window.location.href = "dashboard-undangan-user.html";
+            } catch (error) {
+                alert("Gagal mendaftar: " + kustomPesanEror(error.code));
+            }
+        }
+
+        // Proses Masuk Akun
+        window.prosesLogin = async function() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            if(!email || !password) { alert("Email dan Password wajib diisi!"); return; }
+
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                window.location.href = "dashboard-undangan-user.html";
+            } catch (error) {
+                alert("Gagal Masuk: " + kustomPesanEror(error.code));
+            }
+        }
+
+        function kustomPesanEror(kode) {
+            switch(kode) {
+                case 'auth/email-already-in-use': return 'Email sudah terdaftar gunakan email lain.';
+                case 'auth/weak-password': return 'Kata sandi terlalu lemah, minimal 6 karakter.';
+                case 'auth/invalid-email': return 'Format alamat email tidak valid.';
+                case 'auth/user-not-found': return 'Akun tidak ditemukan, silakan periksa kembali.';
+                case 'auth/wrong-password': return 'Kata sandi yang Anda masukkan salah.';
+                default: return 'Terjadi kendala sistem, coba beberapa saat lagi.';
+            }
+        }
+    </script>
+</body>
+</html>

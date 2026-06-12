@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Dashboard User - Undangan'Me</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+
+:root{
+--gold:#D4AF37;
+--gold-light:#F7E7A8;
+--dark:#0F172A;
+--dark2:#1E293B;
+--bg:#F8FAFC;
+--white:#ffffff;
+--success:#22C55E;
+--danger:#EF4444;
+--warning:#F59E0B;
+--muted:#64748B;
+}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Plus Jakarta Sans',sans-serif;
+}
+
+body{
+background:#020617;
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+padding:15px;
+}
+
+.app{
+width:100%;
+max-width:430px;
+height:100dvh;
+max-height:920px;
+background:var(--bg);
+border-radius:40px;
+overflow:hidden;
+border:10px solid #1E293B;
+box-shadow:0 30px 80px rgba(0,0,0,.55);
+position:relative;
+}
+
+header{
+height:80px;
+background:#fff;
+padding:18px 20px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+border-bottom:1px solid #e2e8f0;
+}
+
+.logo{
+font-size:1.3rem;
+font-weight:800;
+color:#111827;
+}
+
+.logo span{
+color:var(--gold);
+}
+
+.header-right{
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.header-btn{
+width:38px;
+height:38px;
+border-radius:50%;
+background:#F1F5F9;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+}
+
+.content{
+height:calc(100% - 150px);
+overflow:auto;
+padding:20px;
+}
+
+.content::-webkit-scrollbar{
+width:0;
+}
+
+.hero{
+background:linear-gradient(135deg,#0F172A,#1E293B,#D4AF37);
+border-radius:24px;
+padding:22px;
+color:white;
+position:relative;
+overflow:hidden;
+margin-bottom:20px;
+}
+
+.hero::before{
+content:'';
+position:absolute;
+width:250px;
+height:250px;
+border-radius:50%;
+background:rgba(255,255,255,.05);
+top:-120px;
+right:-80px;
+}
+
+.hero h3{
+font-size:.8rem;
+font-weight:500;
+opacity:.8;
+}
+
+.hero h1{
+font-family:'Cormorant Garamond',serif;
+font-size:2.2rem;
+margin-top:8px;
+line-height:1;
+}
+
+.hero p{
+margin-top:8px;
+font-size:.75rem;
+opacity:.85;
+}
+
+.stats{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+margin-bottom:20px;
+}
+
+.stat-card{
+background:white;
+border-radius:18px;
+padding:16px;
+border:1px solid #E2E8F0;
+}
+
+.stat-icon{
+width:45px;
+height:45px;
+border-radius:14px;
+display:flex;
+align-items:center;
+justify-content:center;
+margin-bottom:12px;
+}
+
+.stat-value{
+font-size:1.7rem;
+font-weight:800;
+}
+
+.stat-label{
+font-size:.75rem;
+color:var(--muted);
+font-weight:600;
+}
+
+.section-title{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:12px;
+}
+
+.section-title h2{
+font-size:1rem;
+font-weight:800;
+color:var(--dark);
+}
+
+.card{
+background:white;
+border-radius:20px;
+padding:18px;
+border:1px solid #E2E8F0;
+margin-bottom:15px;
+}
+
+.type-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+}
+
+.type-card{
+border:2px solid #E2E8F0;
+padding:14px;
+border-radius:18px;
+text-align:center;
+cursor:pointer;
+transition:.3s;
+}
+
+.type-card.active{
+border-color:var(--gold);
+background:#FFFBEA;
+}
+
+.type-card i{
+font-size:1.3rem;
+margin-bottom:8px;
+}
+
+.type-card.active i{
+color:var(--gold);
+}
+
+.type-card span{
+display:block;
+font-size:.8rem;
+font-weight:700;
+}
+
+.template-slider{
+display:flex;
+gap:12px;
+overflow:auto;
+padding-bottom:10px;
+}
+
+.template-slider::-webkit-scrollbar{
+height:5px;
+}
+
+.template-slider::-webkit-scrollbar-thumb{
+background:#CBD5E1;
+border-radius:50px;
+}
+
+.template{
+min-width:150px;
+height:220px;
+border-radius:20px;
+overflow:hidden;
+cursor:pointer;
+border:3px solid transparent;
+position:relative;
+}
+
+.template.active{
+border-color:var(--gold);
+}
+
+.template img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+.template span{
+position:absolute;
+bottom:10px;
+left:10px;
+right:10px;
+background:rgba(0,0,0,.65);
+color:white;
+padding:8px;
+font-size:.7rem;
+border-radius:10px;
+text-align:center;
+}
+
+.form-group{
+margin-bottom:14px;
+}
+
+label{
+font-size:.75rem;
+font-weight:700;
+margin-bottom:5px;
+display:block;
+color:#334155;
+}
+
+input,
+textarea,
+select{
+width:100%;
+padding:12px;
+border:1px solid #CBD5E1;
+border-radius:12px;
+font-size:.85rem;
+outline:none;
+}
+
+.btn{
+width:100%;
+border:none;
+padding:14px;
+border-radius:14px;
+font-weight:700;
+cursor:pointer;
+}
+
+.btn-primary{
+background:linear-gradient(135deg,#D4AF37,#C89B3C);
+color:white;
+}
+
+.btn-danger{
+background:#EF4444;
+color:white;
+}
+
+.table{
+width:100%;
+border-collapse:collapse;
+}
+
+.table th{
+background:#F8FAFC;
+padding:12px;
+font-size:.75rem;
+text-align:left;
+}
+
+.table td{
+padding:12px;
+font-size:.75rem;
+border-bottom:1px solid #E2E8F0;
+}
+/* Atur wadah aksi agar tombol menumpuk ke bawah */
+.action {
+    display: flex;
+    flex-direction: column; /* Membuat tombol berbaris ke bawah */
+    gap: 6px;              /* Jarak antar tombol */
+    width: 100%;           /* Lebar wadah penuh */
+    box-sizing: border-box;
+}
+
+.icon-btn {
+    width: 100%;           /* Membuat semua tombol sama lebar (100%) */
+    padding: 8px 12px;
+    font-size: 11px;
+    font-weight: 700;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    color: white;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+    box-sizing: border-box;
+}
+.edit{
+background:#3B82F6;
+}
+
+.delete{
+background:#EF4444;
+}
+
+.view{
+background:#22C55E;
+}
+
+.profile{
+text-align:center;
+}
+
+.profile-avatar{
+width:90px;
+height:90px;
+border-radius:50%;
+margin:auto;
+background:linear-gradient(135deg,#D4AF37,#F7E7A8);
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:2rem;
+color:white;
+margin-bottom:15px;
+}
+
+.tab{
+display:none;
+}
+
+.tab.active{
+display:block;
+}
+
+.bottom-nav{
+position:absolute;
+bottom:0;
+left:0;
+width:100%;
+height:70px;
+background:white;
+display:flex;
+justify-content:space-around;
+align-items:center;
+border-top:1px solid #E2E8F0;
+}
+
+.nav-btn{
+background:none;
+border:none;
+display:flex;
+flex-direction:column;
+align-items:center;
+gap:4px;
+font-size:.7rem;
+font-weight:700;
+color:#94A3B8;
+cursor:pointer;
+}
+
+.nav-btn i{
+font-size:1.15rem;
+}
+
+.nav-btn.active{
+color:var(--gold);
+}
+
+.empty{
+text-align:center;
+padding:20px;
+color:#64748B;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header>
+
+<div class="logo">
+Undangan<span>'Me</span>
+</div>
+
+<div class="header-right">
+<div class="header-btn">
+<i class="fa-regular fa-bell"></i>
+</div>
+
+<div class="header-btn">
+<i class="fa-solid fa-gear"></i>
+</div>
+</div>
+
+</header>
+
+<div class="content">
+
+<!-- HOME -->
+
+<div class="tab active" id="tab-home">
+
+<div class="hero">
+<h3>Wedding Invitation Premium</h3>
+<h1 id="hero-couple">Belum Ada Undangan</h1>
+<p id="hero-template">Template : Luxury Gold</p>
+</div>
+
+<div class="stats">
+
+<div class="stat-card">
+<div class="stat-icon" style="background:#DCFCE7">
+<i class="fa-solid fa-circle-check" style="color:#16A34A"></i>
+</div>
+<div class="stat-value" id="hadir">0</div>
+<div class="stat-label">Hadir</div>
+</div>
+
+<div class="stat-card">
+<div class="stat-icon" style="background:#FEE2E2">
+<i class="fa-solid fa-circle-xmark" style="color:#DC2626"></i>
+</div>
+<div class="stat-value" id="absen">0</div>
+<div class="stat-label">Absen</div>
+</div>
+
+<div class="stat-card">
+<div class="stat-icon" style="background:#FEF3C7">
+<i class="fa-solid fa-circle-question" style="color:#D97706"></i>
+</div>
+<div class="stat-value" id="ragu">0</div>
+<div class="stat-label">Ragu</div>
+</div>
+
+<div class="stat-card">
+<div class="stat-icon" style="background:#DBEAFE">
+<i class="fa-solid fa-eye" style="color:#2563EB"></i>
+</div>
+<div class="stat-value" id="views">0</div>
+<div class="stat-label">Views</div>
+</div>
+
+</div>
+
+<div class="section-title">
+<h2>Template Undangan</h2>
+</div>
+
+<div class="template-slider">
+
+<div class="template active" data-template="tema1.jpg">
+<img src="tema1.jpg">
+<span>Luxury Gold</span>
+</div>
+
+<div class="template" data-template="tema2.jpg">
+<img src="tema2.jpg">
+<span>Elegant White</span>
+</div>
+
+<div class="template" data-template="tema3.jpg">
+<img src="tema3.jpg">
+<span>Islamic Green</span>
+</div>
+
+<div class="template" data-template="tema4.jpg">
+<img src="tema4.jpg">
+<span>Royal Black</span>
+</div>
+
+</div>
+
+<div class="card">
+
+<h3 style="margin-bottom:15px">
+Collection Saya
+</h3>
+
+<div id="collectionList">
+
+<div class="empty">
+Belum ada undangan
+</div>
+
+</div>
+
+</div>
+
+</div>
+<!-- END TAB HOME -->
+<!-- TAB CREATE -->
+
+<div class="tab" id="tab-create">
+
+<div class="card">
+
+<input type="hidden" id="editId">
+
+<div class="form-group">
+<label>Nama Pengantin Pria</label>
+<input type="text" id="priaNama">
+</div>
+
+<div class="form-group">
+<label>Nama Pengantin Wanita</label>
+<input type="text" id="wanitaNama">
+</div>
+
+<div class="form-group">
+<label>Orang Tua Pria</label>
+<input type="text" id="priaOrtu">
+</div>
+
+<div class="form-group">
+<label>Orang Tua Wanita</label>
+<input type="text" id="wanitaOrtu">
+</div>
+
+<div class="form-group">
+<label>Tanggal Acara</label>
+<input type="date" id="tanggal">
+</div>
+
+<div class="form-group">
+<label>Tempat Acara</label>
+<input type="text" id="tempat">
+</div>
+
+<div class="form-group">
+<label>Link Google Maps</label>
+<input type="text" id="maps">
+</div>
+
+<button class="btn btn-primary" onclick="simpanData()">
+Simpan Undangan
+</button>
+
+</div>
+
+</div>
+
+<!-- TAB LIST -->
+
+<div class="tab" id="tab-list">
+
+<div class="card">
+
+<table class="table">
+
+<thead>
+<tr>
+<th>Mempelai</th>
+<th>Tanggal</th>
+<th>Aksi</th>
+</tr>
+</thead>
+
+<tbody id="tbodyUndangan">
+
+</tbody>
+
+</table>
+<div style="margin: 20px 0; background: white; padding: 20px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+    <h3 style="font-size: 14px; color: #1e293b; margin-bottom: 15px; display:flex; align-items:center; gap:8px;">
+        📦 Daftar Link Aktif (Sudah Bayar)
+    </h3>
+    <div id="wadahLinkLunas">
+        </div>
+</div>
+
+<div id="totalUndangan"
+style="
+margin-top:15px;
+font-size:14px;
+font-weight:700;
+color:#334155;">
+Total Undangan : 0
+</div>
+
+</div>
+
+</div>
+
+<!-- TAB PROFILE -->
+
+<div class="tab" id="tab-profile">
+
+<div class="card profile">
+
+<div class="profile-avatar">
+<i class="fa-solid fa-user"></i>
+</div>
+
+<h3 id="userName">Loading...</h3>
+
+<p id="userEmail">Loading...</p>
+
+<br>
+
+<button class="btn btn-danger" onclick="logout()">
+Logout
+</button>
+
+</div>
+
+<div class="card">
+
+<h3 style="margin-bottom:12px">
+Informasi Akun
+</h3>
+
+<div style="font-size:.85rem;line-height:1.8">
+
+<div>
+<strong>Nama :</strong>
+<span id="profileNama">-</span>
+</div>
+
+<div>
+<strong>Email :</strong>
+<span id="profileEmail">-</span>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- END CONTENT -->
+</div>
+
+<!-- NAVIGATION -->
+
+<div class="bottom-nav">
+
+<button
+class="nav-btn active"
+onclick="switchTab(this,'tab-home')">
+
+<i class="fa-solid fa-house"></i>
+<span>Home</span>
+
+</button>
+
+<button
+class="nav-btn"
+onclick="switchTab(this,'tab-create')">
+
+<i class="fa-solid fa-plus"></i>
+<span>Buat</span>
+
+</button>
+
+<button
+class="nav-btn"
+onclick="switchTab(this,'tab-list')">
+
+<i class="fa-solid fa-envelope"></i>
+<span>Undangan</span>
+
+</button>
+
+<button
+class="nav-btn"
+onclick="switchTab(this,'tab-profile')">
+
+<i class="fa-solid fa-user"></i>
+<span>Akun</span>
+
+</button>
+
+</div>
+
+</div>
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+getFirestore,
+collection,
+collectionGroup,
+addDoc,
+deleteDoc,
+doc,
+getDoc,
+updateDoc,
+query,
+where,
+onSnapshot
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+import {
+getAuth,
+onAuthStateChanged,
+signOut
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCJE7hxrEd028dNOP0IlkKRnGzuzYMOGmo",
+  authDomain: "undangan-digital-d05f6.firebaseapp.com",
+  projectId: "undangan-digital-d05f6",
+  storageBucket: "undangan-digital-d05f6.firebasestorage.app",
+  messagingSenderId: "67545163455",
+  appId: "1:67545163455:web:5e92717868a714b473c80a",
+  measurementId: "G-XFXBTPVYEQ"
+};
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+let currentUser = null;
+let editId = null;
+let selectedTemplate = "tema1.jpg";
+
+// ========================================================
+// 🛠️ PERBAIKAN UTAMA: FUNGSI PINDAH TAB NAVBAR (NAVBAR FIX)
+// ========================================================
+window.switchTab = function(btn, id) {
+    // 1. Sembunyikan semua konten tab terlebih dahulu
+    document.querySelectorAll('.tab').forEach(e => {
+        e.classList.remove('active');
+        e.style.display = 'none'; // Memaksa sembunyi agar tidak tumpang tindih
+    });
+    
+    // 2. Hapus status 'active' dari semua tombol di navbar
+    document.querySelectorAll('.nav-btn').forEach(e => {
+        e.classList.remove('active');
+    });
+    
+    // 3. Aktifkan tab yang dipilih berdasarkan ID target
+    const targetTab = document.getElementById(id);
+    if (targetTab) {
+        targetTab.classList.add('active');
+        targetTab.style.display = 'block'; // Tampilkan tab target dengan tegas
+    }
+    
+    // 4. Aktifkan tombol navbar yang sedang diklik jika elemen tombol dikirim
+    if (btn) {
+        btn.classList.add('active');
+    }
+}
+
+// Handler klik untuk memilih gambar template/tema
+document.querySelectorAll(".template").forEach(card=>{
+    card.addEventListener("click",()=>{
+        document.querySelectorAll(".template").forEach(x=>x.classList.remove("active"));
+        card.classList.add("active");
+        selectedTemplate = card.dataset.template;
+    });
+});
+
+onAuthStateChanged(auth,(user)=>{
+    if(!user){
+        location.href="auth-undangan.html";
+        return;
+    }
+
+    currentUser = user;
+    loadUndanganUser();
+    loadStatistikRSVP();
+
+    if(document.getElementById("userName")) document.getElementById("userName").innerText = user.displayName || "User";
+    if(document.getElementById("userEmail")) document.getElementById("userEmail").innerText = user.email;
+    if(document.getElementById("profileNama")) document.getElementById("profileNama").innerText = user.displayName || "User";
+    if(document.getElementById("profileEmail")) document.getElementById("profileEmail").innerText = user.email;
+});
+
+window.logout = async function(){
+    await signOut(auth);
+    location.href="auth-undangan.html";
+}
+
+window.simpanData = async function(){
+    if(!currentUser){
+        alert("User belum login");
+        return;
+    }
+
+    const data = {
+        uid: currentUser.uid,
+        email: currentUser.email,
+        priaNama: document.getElementById("priaNama").value,
+        wanitaNama: document.getElementById("wanitaNama").value,
+        priaOrtu: document.getElementById("priaOrtu").value,
+        wanitaOrtu: document.getElementById("wanitaOrtu").value,
+        tanggal: document.getElementById("tanggal").value,
+        tempat: document.getElementById("tempat").value,
+        maps: document.getElementById("maps").value,
+        templateTerpilih: selectedTemplate,
+        createdAt: Date.now()
+    };
+
+    try{
+        if(editId){
+            // Mode Edit: UpdateDoc agar statusBayar klien yang sudah lunas tidak ter-reset kembali
+            await updateDoc(doc(db,"undangan",editId), data);
+            alert("Undangan berhasil diupdate");
+            editId = null;
+        }else{
+            // Data baru otomatis berstatus belum aktif (kunci bisnis)
+            data.statusBayar = false; 
+            await addDoc(collection(db,"undangan"), data);
+            alert("Undangan berhasil dibuat");
+        }
+        resetForm();
+        
+        // Setelah menyimpan, arahkan user kembali ke tab Home secara otomatis lewat navbar
+        const btnHome = document.querySelector('.nav-btn') || document.querySelector('[onclick*="tab-home"]');
+        window.switchTab(btnHome, 'tab-home');
+    }catch(err){
+        console.error(err);
+        alert(err.message);
+    }
+}
+
+function loadUndanganUser(){
+    const q = query(
+        collection(db,"undangan"),
+        where("uid","==",currentUser.uid)
+    );
+
+    onSnapshot(q,(snapshot)=>{
+        let htmlTabel = "";
+        let listLunasHtml = ""; // Tempat penampungan link yang sudah bayar
+        let jumlah = 0;
+
+        snapshot.forEach((docu)=>{
+            jumlah++;
+            const d = docu.data();
+            const urlUndanganAsli = `${window.location.origin}/undangan.html?id=${docu.id}`;
+
+            // KONDISI 1: JIKA SUDAH LUNAS / AKTIF
+            if (d.statusBayar === true) {
+                const statusBadge = `<span style="color:#22c55e; font-size:11px; font-weight:bold; display:block; margin-top:4px;">🟢 Aktif (Lunas)</span>`;
+                
+                htmlTabel += `
+                <tr>
+                    <td><strong>${d.priaNama || ''} & ${d.wanitaNama || ''}</strong>${statusBadge}</td>
+                    <td>${d.tanggal || ''}</td>
+                    <td>
+                        <div class="action" style="display: flex; flex-direction: column; gap: 6px;">
+                            <a href="${urlUndanganAsli}" target="_blank" class="icon-btn view" style="text-align:center; text-decoration:none; background:#22c55e;">Buka</a>
+                            <button class="icon-btn edit" onclick="editData('${docu.id}')">Edit</button>
+                        </div>
+                    </td>
+                </tr>`;
+
+                // Menyimpan dan memunculkan link ke wadah khusus "Sudah Bayar"
+                listLunasHtml += `
+                <div style="padding:15px; border:1px solid #22c55e; background:#f0fdf4; border-radius:12px; margin-bottom:12px; text-align:left;">
+                    <strong style="color:#166534;">🎉 ${d.priaNama || ''} & ${d.wanitaNama || ''} (LUNAS)</strong>
+                    <div style="margin-top:8px; display:flex; gap:5px;">
+                        <input type="text" value="${urlUndanganAsli}" id="copyInput-${docu.id}" readonly style="flex:1; padding:6px; font-size:12px; border:1px solid #bbf7d0; border-radius:6px;">
+                        <button onclick="salinLinkUndangan('${docu.id}')" style="padding:6px 12px; font-size:12px; background:#166534; border-radius:6px;">Salin</button>
+                    </div>
+                </div>`;
+
+            // KONDISI 2: JIKA BELUM BAYAR (MUNCULKAN PANEL BAYAR QRIS KETIKA PREVIEW DIKLIK)
+          // KONDISI 2: JIKA BELUM BAYAR
+} else {
+    const statusBadge = `<span style="color:#ef4444; font-size:11px; font-weight:bold; display:block; margin-top:4px;">🔴 Belum Aktif</span>`;
+    
+    htmlTabel += `
+    <tr>
+        <td><strong>${d.priaNama || ''} & ${d.wanitaNama || ''}</strong>${statusBadge}</td>
+        <td>${d.tanggal || ''}</td>
+        <td>
+            <div class="action" style="display: flex; flex-direction: column; gap: 6px;">
+                <a href="${urlUndanganAsli}" target="_blank" class="icon-btn" style="background:#64748b; text-decoration:none; text-align:center;">Preview</a>
+                
+               
+                <button class="icon-btn edit" onclick="editData('${docu.id}')">Edit</button>
+                <button class="icon-btn delete" onclick="hapusData('${docu.id}')">Hapus</button>
+            </div>
+        </td>
+    </tr>`;
+}
+            if(jumlah===1){
+                if(document.getElementById("hero-couple")) document.getElementById("hero-couple").innerText = `${d.priaNama || ''} & ${d.wanitaNama || ''}`;
+                if(document.getElementById("hero-template")) document.getElementById("hero-template").innerText = `Template : ${d.templateTerpilih || 'tema1.jpg'}`;
+            }
+        });
+
+        if(document.getElementById("tbodyUndangan")) document.getElementById("tbodyUndangan").innerHTML = htmlTabel;
+        
+        // Render otomatis ke container penampungan link lunas di dashboard
+        if(document.getElementById("wadahLinkLunas")) {
+            document.getElementById("wadahLinkLunas").innerHTML = listLunasHtml || '<div style="color:#94a3b8; font-size:13px;">Belum ada link yang diaktivasi.</div>';
+        }
+        if(document.getElementById("totalUndangan")) document.getElementById("totalUndangan").innerText = `Total Undangan : ${jumlah}`;
+    });
+}
+
+// 📋 Fungsi Pembantu untuk Menyalin Link Langsung ke Clipboard HP/PC Klien
+window.salinLinkUndangan = function(id) {
+    const copyText = document.getElementById(`copyInput-${id}`);
+    copyText.select();
+    copyText.setSelectionRange(0, 99999);
+    navigator.clipboard.writeText(copyText.value);
+    alert("Link undangan berhasil disalin!");
+}
+
+
+
+// ⚡ Proses Update Database Firebase Merubah Status Bayar Menjadi TRUE
+window.prosesAktivasiOtomatis = async function(id) {
+    try {
+        await updateDoc(doc(db, "undangan", id), {
+            statusBayar: true
+        });
+        alert("Pembayaran Terverifikasi! Link Undangan Anda Telah Aktif Secara Otomatis.");
+        const modal = document.getElementById('kotak-pembayaran-qris');
+        if(modal) modal.remove();
+    } catch (error) {
+        alert("Gagal melakukan verifikasi: " + error.message);
+    }
+}
+
+
+function loadStatistikRSVP(){
+    const q = collectionGroup(db,"konfirmasi");
+    onSnapshot(q,(snapshot)=>{
+        let hadir = 0;
+        let ragu = 0;
+        let absen = 0;
+
+        snapshot.forEach((d)=>{
+            const data = d.data();
+            if(data.status === "hadir") hadir++;
+            if(data.status === "ragu") ragu++;
+            if(data.status === "absen") absen++;
+        });
+
+        if(document.getElementById("hadir")) document.getElementById("hadir").innerText = hadir;
+        if(document.getElementById("ragu")) document.getElementById("ragu").innerText = ragu;
+        if(document.getElementById("absen")) document.getElementById("absen").innerText = absen;
+    });
+}
+
+window.editData = async function(id){
+    try{
+        const snap = await getDoc(doc(db,"undangan",id));
+        if(!snap.exists()){
+            alert("Data tidak ditemukan");
+            return;
+        }
+
+        const data = snap.data();
+        if(data.uid !== currentUser.uid){
+            alert("Akses ditolak");
+            return;
+        }
+
+        editId = id;
+        document.getElementById("priaNama").value = data.priaNama || '';
+        document.getElementById("wanitaNama").value = data.wanitaNama || '';
+        document.getElementById("priaOrtu").value = data.priaOrtu || '';
+        document.getElementById("wanitaOrtu").value = data.wanitaOrtu || '';
+        document.getElementById("tanggal").value = data.tanggal || '';
+        document.getElementById("tempat").value = data.tempat || '';
+        document.getElementById("maps").value = data.maps || '';
+
+        // Otomatis pindah ke tab Form Pembuatan/Edit saat tombol edit ditekan
+        const btnCreate = document.querySelectorAll('.nav-btn')[1] || document.querySelector('[onclick*="tab-create"]');
+        window.switchTab(btnCreate, "tab-create");
+
+        alert("Mode Edit Aktif");
+    }catch(err){
+        alert(err.message);
+    }
+}
+
+window.hapusData = async function(id){
+    if(!confirm("Hapus undangan ini ?")) return;
+
+    try{
+        const snap = await getDoc(doc(db,"undangan",id));
+        if(!snap.exists()) return;
+
+        const data = snap.data();
+        if(data.uid !== currentUser.uid){
+            alert("Akses ditolak");
+            return;
+        }
+
+        await deleteDoc(doc(db,"undangan",id));
+        alert("Data berhasil dihapus");
+    }catch(err){
+        alert(err.message);
+    }
+}
+
+function resetForm(){
+    document.getElementById("priaNama").value='';
+    document.getElementById("wanitaNama").value='';
+    document.getElementById("priaOrtu").value='';
+    document.getElementById("wanitaOrtu").value='';
+    document.getElementById("tanggal").value='';
+    document.getElementById("tempat").value='';
+    document.getElementById("maps").value='';
+}
+
+</script>
+</body>
+</html>
