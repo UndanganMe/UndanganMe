@@ -423,8 +423,21 @@
     </div> 
 
  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-    import { getFirestore, doc, onSnapshot, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+    getFirestore,
+    doc,
+    onSnapshot,
+    collection,
+    addDoc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+import {
+    getAuth,
+    signOut
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
 
     const firebaseConfig = {
         apiKey: "AIzaSyCJE7hxrEd028dNOP0IlkKRnGzuzYMOGmo",
@@ -446,6 +459,8 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
+    let uidPemilikUndangan = null;
+    const auth = getAuth(app);
 
     window.bukaModalPembayaran = function(id, namaPengantin) {
         const noWa = "6285773300051"; 
@@ -468,8 +483,8 @@
                 <a href="${linkWa}" target="_blank" style="display:block; width:100%; padding:14px; background:#25D366; color:white; border-radius:12px; font-weight:bold; text-decoration:none; font-size:14px; margin-bottom:10px;">
                     Konfirmasi via WhatsApp
                 </a>
-                <button onclick="window.location.href='dashboard-undangan-user.html'" style="width:100%; padding:12px; background:#f1f5f9; color:#64748b; border:none; border-radius:12px; cursor:pointer; font-size:13px;">
-                    Tutup & Kembali ke Dasbor
+                <button onclick="window.location.href='index.html'" style="width:100%; padding:12px; background:#f1f5f9; color:#64748b; border:none; border-radius:12px; cursor:pointer; font-size:13px;">
+                    Tutup & Kembali ke dashboard
                 </button>
             </div>
         `;
@@ -479,6 +494,7 @@
         onSnapshot(doc(db, "undangan", idUndangan), (docSnap) => {
             if (docSnap.exists()) {
                 const data = docSnap.data();
+                uidPemilikUndangan = data.uid;
                 const belumBayar = data.statusBayar === false || data.statusBayar === undefined;
                 const namaLengkap = (data.priaNama || '') + " & " + (data.wanitaNama || '');
 
@@ -489,7 +505,7 @@
                     let watermark = document.createElement('div');
                     watermark.id = "me-watermark-banner";
                     watermark.innerHTML = `
-                        <div style="margin-bottom:12px;">⚠️ UNDANGAN BELUM AKTIF<br>MOHON SELESAIKAN PEMBAYARAN<br>Sejumlah Rp.15.000</div>
+                        <div style="margin-bottom:12px;">⚠️ UNDANGAN BELUM AKTIF<br>MOHON SELESAIKAN PEMBAYARAN<br>Sejumlah Rp.20.000</div>
                         <button onclick="bukaModalPembayaran('${idUndangan}', '${namaLengkap}')" style="background:white; color:#ef4444; border:none; padding:10px 20px; border-radius:8px; font-weight:bold; cursor:pointer; font-size:13px; box-shadow:0 4px 6px rgba(0,0,0,0.2);">
                             Bayar Sekarang
                         </button>
@@ -573,10 +589,11 @@
             const namaPengunjung = namaTamu !== "Tamu Undangan" ? namaTamu : "Tamu Tanpa Nama";
             try {
                 await addDoc(collection(db, "undangan", idUndangan, "konfirmasi"), {
-                    nama: namaPengunjung,
-                    status: status, 
-                    waktu: new Date().toISOString()
-                });
+    nama: namaPengunjung,
+    status: status,
+    uidPemilik: uidPemilikUndangan,
+    waktu: new Date().toISOString()
+});
                 alert(`Terima kasih! Konfirmasi "${status.toUpperCase()}" atas nama ${namaPengunjung} berhasil dikirim.`);
             } catch (error) {
                 alert("Gagal mengirim konfirmasi.");
