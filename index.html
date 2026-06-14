@@ -596,7 +596,7 @@ Simpan Undangan
 </tr>
 </thead>
 
-<tbody id="tbodyUndangan">
+<tbody id="tbodyundangan">
 
 </tbody>
 
@@ -609,13 +609,13 @@ Simpan Undangan
         </div>
 </div>
 
-<div id="totalUndangan"
+<div id="totalundangan"
 style="
 margin-top:15px;
 font-size:14px;
 font-weight:700;
 color:#334155;">
-Total Undangan : 0
+Total undangan : 0
 </div>
 
 </div>
@@ -702,7 +702,7 @@ class="nav-btn"
 onclick="switchTab(this,'tab-list')">
 
 <i class="fa-solid fa-envelope"></i>
-<span>Undangan</span>
+<span>undangan</span>
 
 </button>
 
@@ -750,7 +750,7 @@ onAuthStateChanged(auth, (user) => {
 
     currentUser = user;
 
-    loadUndanganUser();
+    loadundanganUser();
 
     loadStatistikRSVP();
 
@@ -816,7 +816,7 @@ window.addEventListener("DOMContentLoaded",()=>{
 });
 
 // --- FUNGSI LOAD DATA (LENGKAP) ---
-function loadUndanganUser(){
+function loadundanganUser(){
     const q = query(collection(db,"undangan"), where("uid","==",currentUser.uid));
     onSnapshot(q,(snapshot)=>{
         let htmlTabel = "";
@@ -826,13 +826,13 @@ function loadUndanganUser(){
         snapshot.forEach((docu)=>{
             jumlah++;
             const d = docu.data();
-            const urlUndanganAsli = `${window.location.origin}/undangan.html?id=${docu.id}`;
+            const urlundanganAsli = `${window.location.origin}/undangan.html?id=${docu.id}`;
 
             if (d.statusBayar === true) {
                 const statusBadge = `<span style="color:#22c55e; font-size:11px; font-weight:bold; display:block; margin-top:4px;">🟢 Aktif (Lunas)</span>`;
                 htmlTabel += `<tr><td><strong>${d.priaNama || ''} & ${d.wanitaNama || ''}</strong>${statusBadge}</td><td>${d.tanggal || ''}</td><td><div class="action" style="display: flex; flex-direction: column; gap: 6px;">
 
-                  <a href="${urlUndanganAsli}" target="_blank"
+                  <a href="${urlundanganAsli}" target="_blank"
 class="icon-btn view"
 style="text-align:center;text-decoration:none;background:#22c55e;">
 Buka
@@ -853,16 +853,16 @@ Kehadiran
                    </div>
                    </td>
                    </tr>`;
-                listLunasHtml += `<div style="padding:15px; border:1px solid #22c55e; background:#f0fdf4; border-radius:12px; margin-bottom:12px; text-align:left;"><strong style="color:#166534;">🎉 ${d.priaNama || ''} & ${d.wanitaNama || ''} (LUNAS)</strong><div style="margin-top:8px; display:flex; gap:5px;"><input type="text" value="${urlUndanganAsli}" id="copyInput-${docu.id}" readonly style="flex:1; padding:6px; font-size:12px; border:1px solid #bbf7d0; border-radius:6px;"><button onclick="salinLinkUndangan('${docu.id}')" style="padding:6px 12px; font-size:12px; background:#166534; border-radius:6px;">Salin</button></div></div>`;
+                listLunasHtml += `<div style="padding:15px; border:1px solid #22c55e; background:#f0fdf4; border-radius:12px; margin-bottom:12px; text-align:left;"><strong style="color:#166534;">🎉 ${d.priaNama || ''} & ${d.wanitaNama || ''} (LUNAS)</strong><div style="margin-top:8px; display:flex; gap:5px;"><input type="text" value="${urlundanganAsli}" id="copyInput-${docu.id}" readonly style="flex:1; padding:6px; font-size:12px; border:1px solid #bbf7d0; border-radius:6px;"><button onclick="salinLinkundangan('${docu.id}')" style="padding:6px 12px; font-size:12px; background:#166534; border-radius:6px;">Salin</button></div></div>`;
             } else {
                 const statusBadge = `<span style="color:#ef4444; font-size:11px; font-weight:bold; display:block; margin-top:4px;">🔴 Belum Aktif</span>`;
-                htmlTabel += `<tr><td><strong>${d.priaNama || ''} & ${d.wanitaNama || ''}</strong>${statusBadge}</td><td>${d.tanggal || ''}</td><td><div class="action" style="display: flex; flex-direction: column; gap: 6px;"><a href="${urlUndanganAsli}" target="_blank" class="icon-btn" style="background:#64748b; text-decoration:none; text-align:center;">Preview</a><button class="icon-btn edit" onclick="editData('${docu.id}')">Edit</button><button class="icon-btn delete" onclick="hapusData('${docu.id}')">Hapus</button></div></td></tr>`;
+                htmlTabel += `<tr><td><strong>${d.priaNama || ''} & ${d.wanitaNama || ''}</strong>${statusBadge}</td><td>${d.tanggal || ''}</td><td><div class="action" style="display: flex; flex-direction: column; gap: 6px;"><a href="${urlundanganAsli}" target="_blank" class="icon-btn" style="background:#64748b; text-decoration:none; text-align:center;">Preview</a><button class="icon-btn edit" onclick="editData('${docu.id}')">Edit</button><button class="icon-btn delete" onclick="hapusData('${docu.id}')">Hapus</button></div></td></tr>`;
             }
         });
 
-        if(document.getElementById("tbodyUndangan")) document.getElementById("tbodyUndangan").innerHTML = htmlTabel;
+        if(document.getElementById("tbodyundangan")) document.getElementById("tbodyundangan").innerHTML = htmlTabel;
         if(document.getElementById("wadahLinkLunas")) document.getElementById("wadahLinkLunas").innerHTML = listLunasHtml || '<div style="color:#94a3b8; font-size:13px;">Belum ada link yang diaktivasi.</div>';
-        if(document.getElementById("totalUndangan")) document.getElementById("totalUndangan").innerText = `Total Undangan : ${jumlah}`;
+        if(document.getElementById("totalundangan")) document.getElementById("totalundangan").innerText = `Total undangan : ${jumlah}`;
     });
 }
 
@@ -1011,7 +1011,7 @@ window.uploadMusik = function() {
     });
 }
 
-window.lihatKonfirmasi = function(idUndangan,namaPasangan){
+window.lihatKonfirmasi = function(idundangan,namaPasangan){
 
     const heroCouple = document.getElementById("heroCouple");
     const heroInfo = document.getElementById("heroInfo");
@@ -1032,7 +1032,7 @@ window.lihatKonfirmasi = function(idUndangan,namaPasangan){
     const q = collection(
         db,
         "undangan",
-        idUndangan,
+        idundangan,
         "konfirmasi"
     );
 

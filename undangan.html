@@ -346,7 +346,7 @@
                 <h1 id="txt-title" class="animasi-teks" style="animation-delay: 0.3s;">Loading...</h1> 
                 <p class="animasi-teks" style="animation-delay: 0.6s;">Kepada Bapak/Ibu/Saudara/i:</p>
                 <h2 id="txt-tamu" class="nama-tamu animasi-teks" style="animation-delay: 0.8s;">Tamu Undangan</h2>
-                <button onclick="bukaUndangan()" class="animasi-teks" style="animation-delay: 1s;">Buka Undangan</button>
+                <button onclick="bukaundangan()" class="animasi-teks" style="animation-delay: 1s;">Buka Undangan</button>
             </div>
         </div>
 
@@ -450,7 +450,7 @@ import {
     };
 
     const urlParams = new URLSearchParams(window.location.search);
-    const idUndangan = urlParams.get('id');
+    const idundangan = urlParams.get('id');
     const namaTamu = urlParams.get('to') || "Tamu Undangan";   
 
     if(document.getElementById('txt-tamu')) {
@@ -459,7 +459,7 @@ import {
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-    let uidPemilikUndangan = null;
+    let uidPemilikundangan = null;
     const auth = getAuth(app);
 
     window.bukaModalPembayaran = function(id, namaPengantin) {
@@ -490,11 +490,11 @@ import {
         `;
         document.body.appendChild(modalBayar);
     }
-    if (idUndangan) {
-        onSnapshot(doc(db, "undangan", idUndangan), (docSnap) => {
+    if (idundangan) {
+        onSnapshot(doc(db, "undangan", idundangan), (docSnap) => {
             if (docSnap.exists()) {
                 const data = docSnap.data();
-                uidPemilikUndangan = data.uid;
+                uidPemilikundangan = data.uid;
                 const belumBayar = data.statusBayar === false || data.statusBayar === undefined;
                 const namaLengkap = (data.priaNama || '') + " & " + (data.wanitaNama || '');
 
@@ -506,7 +506,7 @@ import {
                     watermark.id = "me-watermark-banner";
                     watermark.innerHTML = `
                         <div style="margin-bottom:12px;">⚠️ UNDANGAN BELUM AKTIF<br>MOHON SELESAIKAN PEMBAYARAN<br>Sejumlah Rp.20.000</div>
-                        <button onclick="bukaModalPembayaran('${idUndangan}', '${namaLengkap}')" style="background:white; color:#ef4444; border:none; padding:10px 20px; border-radius:8px; font-weight:bold; cursor:pointer; font-size:13px; box-shadow:0 4px 6px rgba(0,0,0,0.2);">
+                        <button onclick="bukaModalPembayaran('${idundangan}', '${namaLengkap}')" style="background:white; color:#ef4444; border:none; padding:10px 20px; border-radius:8px; font-weight:bold; cursor:pointer; font-size:13px; box-shadow:0 4px 6px rgba(0,0,0,0.2);">
                             Bayar Sekarang
                         </button>
                     `;
@@ -554,14 +554,14 @@ import {
                     }
                 }
             } else {
-                if(document.getElementById('txt-title')) document.getElementById('txt-title').innerText = "Undangan Tidak Ditemukan";
+                if(document.getElementById('txt-title')) document.getElementById('txt-title').innerText = "undangan Tidak Ditemukan";
             }
         });
     } else {
-        if(document.getElementById('txt-title')) document.getElementById('txt-title').innerText = "ID Undangan Belum Dipilih";
+        if(document.getElementById('txt-title')) document.getElementById('txt-title').innerText = "ID undangan Belum Dipilih";
     }
 
-    window.bukaUndangan = function() {
+    window.bukaundangan = function() {
         const coverEl = document.getElementById('cover');
         const mainEl = document.getElementById('main-content');
         if(coverEl) coverEl.style.display = 'none';
@@ -585,13 +585,13 @@ import {
 
     function aktifkanFungsiRSVP() {
         window.kirimKonfirmasi = async function(status) {
-            if (!idUndangan) return;
-            const namaPengunjung = namaTamu !== "Tamu Undangan" ? namaTamu : "Tamu Tanpa Nama";
+            if (!idundangan) return;
+            const namaPengunjung = namaTamu !== "Tamu undangan" ? namaTamu : "Tamu Tanpa Nama";
             try {
-                await addDoc(collection(db, "undangan", idUndangan, "konfirmasi"), {
+                await addDoc(collection(db, "undangan", idundangan, "konfirmasi"), {
     nama: namaPengunjung,
     status: status,
-    uidPemilik: uidPemilikUndangan,
+    uidPemilik: uidPemilikundangan,
     waktu: new Date().toISOString()
 });
                 alert(`Terima kasih! Konfirmasi "${status.toUpperCase()}" atas nama ${namaPengunjung} berhasil dikirim.`);
